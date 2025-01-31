@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark ProStation vs On-Prem Workstation Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+    
+        .logo-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    
+        .logo-container img {
+            max-width: 150px;
+            height: auto;
+        }
+    
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+            font-size: 20px;
+            font-family: 'Epilogue', sans-serif;
+        }
+    
+        form {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid #af69f5;
+        }
+    
+        form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        form .form-group span {
+            font-size: 14px; 
+            color: inherit;  
+            font-weight: normal;
+        }
+    
+        form input[type="range"] {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            color-scheme: light;
+        }
+    
+        form select {
+            width: 100%;
+            padding: 10px;
+            background-color: #f5f5f5;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .nested-box {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #ffffff; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .usage-hours-container {
+            background-color: #f0f0f0; 
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin: 10px auto 20px auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+            max-width: 50%;
+        }
+
+        .usage-hours-container label {
+            font-size: 14px;
+            color: #333; 
+            margin-bottom: 5px;
+        }
+
+        .discount-label {
+            color: #af69f5; 
+        }
+
+        @media (max-width: 600px) {
+            form label,
+            form input,
+            form select {
+                width: 100%;
+            }
+        }
+        
+        .results {
+            background-color: #f0f0f0;
+            border: 2px solid #af69f5;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+            
+        .results-on-prem {
+            border: 2px solid #af69f5;
+        }
+
+        .results-spark {
+            background-color: rgba(235, 219, 252, 0.5);
+            border: 3px solid #edff79;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        .smartcompute-label {
+            color: #af69f5;
+            font-size: 16px;
+        }
+    
+        .results-box {
+            margin-bottom: 20px;
+        }
+    
+        @media (max-width: 600px) {
+            form label, form input, form select {
+                width: 100%;
+            }
+        }
+
+        .accented {
+        accent-color: mediumorchid;
+        }
+
+        [color-scheme="dark"] .accented {
+        accent-color: hsl(328 100% 80%);
+        }
+
+        label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1rem;
+        }
+
+        [color-scheme="light"] {
+        color-scheme: light;
+        }
+
+        [color-scheme="dark"] {
+        color-scheme: dark;
+        }
+
+    </style>
+    <body>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='spark-logo.png') }}" alt="Spark Cloud Studio Logo">
+        </div>
+    
+        <h1>Spark ProStation vs On-Prem Workstation Cost Calculator</h1>
+    
+        <form id="calculator-form">
+            <div class="form-group">
+                <label for="num_devs">Number of Users</label>
+                <span id="num_devs_value">30</span>
+                <input type="range" id="num_devs" name="num_devs" class="accented" min="1" max="100" value="30">
+            </div>
+    
+            <div class="form-group">
+                <label for="on_prem_cost_per_dev">On-Prem Workstation Cost/user</label>
+                <span id="on_prem_cost_per_dev_value">$6500</span>
+                <input type="range" id="on_prem_cost_per_dev" name="on_prem_cost_per_dev" class="accented" min="2000" max="75000" step="100" value="6500">
+            </div>
+    
+          
+            <div class="form-group">
+                <label for="annual_maint_costs">On-Prem Annual Infrastructure Costs/year</label>
+                <span id="annual_maint_costs_value">$7500</span>
+                <input type="range" id="annual_maint_costs" name="annual_maint_costs" class="accented" min="0" max="30000" step="100" value="7500">
+            </div>
+    
+            
+            <div class="nested-box">
+                <div class="form-group">
+                    <label for="hours_per_day">Work Hours/day</label>
+                    <span id="hours_per_day_value">8</span>
+                    <input type="range" id="hours_per_day" name="hours_per_day" class="accented" min="1" max="16" value="8">
+                </div>
+    
+                <div class="form-group">
+                    <label for="days_per_year">Work Days/year</label>
+                    <span id="days_per_year_value">260</span>
+                    <input type="range" id="days_per_year" name="days_per_year" class="accented" min="1" max="365" value="260">
+                </div>
+    
+                <div class="nested-box usage-hours-container">
+                    <label for="usage_hours_per_year">
+                        Usage Hours/year <span id="discount-label-hours" class="discount-label"></span>
+                    </label>
+                    <span id="usage_hours_per_year_value">2000</span>
+                </div>
+
+            </div>
+    
+            <div class="form-group">
+                <label for="os_type">Operating System</label>
+                <select id="os_type" name="os_type">
+                    <option value="windows">Windows</option>
+                    <option value="linux">Linux</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="spark_prostation">Spark ProStation</label>
+                <select id="spark_prostation" name="spark_prostation">
+                    {% for machine, cost in machine_options.items() %}
+                        <option value="{{ machine }}" {% if machine == default_machine %}selected{% endif %}>
+                            {{ machine }} | ${{ cost }}/hr
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    
+      
+       <div class="results-spark">
+            <p class="spark-cost"><strong>Spark ProStation:</strong> $<span id="cloud_cost">0.00</span></p>
+            <p><strong>On-Prem Workstation:</strong> $<span id="on_prem_cost">0.00</span></p>
+        </div>
+       
+
+        <div style="max-width: 630px; margin: 10px auto; font-size: 10px; color: #6a6a6a; text-align: left; line-height: 12px;">
+            <p>The cost estimates provided by this calculator are based on publicly available data and are intended for informational purposes only. Actual costs may vary depending on bespoke configurations and additional partnership discounts. Please contact us at <a href="mailto:ignite@sparkcloud.studio" style="color: #555; text-decoration: underline;">ignite@sparkcloud.studio</a> for pricing tailored to your specific needs. </p>
+        </div>
+        <script>
+            const machineCosts = {
+                "Starter Kit 1 | 4 Cores | 16GB RAM | NVIDIA T4 16 GB VRAM": 3000,
+                "Starter Kit 2 | 4 Cores | 16GB RAM | NVIDIA A10 24 GB VRAM": 4000,
+                "Mid-tier 1 | 8 Cores | 32GB RAM | NVIDIA T4 16 GB VRAM": 5000,
+                "Mid-tier 2 | 8 Cores | 32GB RAM | NVIDIA A10 24 GB VRAM": 6000,
+                "High-end Studio 1 | 16 Cores | 64GB RAM | NVIDIA T4 16 GB VRAM": 7000,
+                "High-end Studio 2 | 16 Cores | 64GB RAM | NVIDIA A10 24 GB VRAM": 8000,
+                "Top-tier 1 | 32 Cores | 128GB RAM | NVIDIA T4 16 GB VRAM": 10000,
+                "Top-tier 2 | 64 Cores | 256GB RAM | NVIDIA T4 16 GB VRAM": 15000,
+                "Top-tier 3 | 32 Cores | 128GB RAM | NVIDIA A10 24 GB VRAM": 12000,
+                "Exceptional Power 1 | 48 Cores | 192GB RAM | 4 x NVIDIA T4 16 GB VRAM": 20000,
+                "Exceptional Power 3 | 64 Cores | 256GB RAM | NVIDIA A10 24 GB VRAM": 22000,
+                "Exceptional Power 2 | 96 Cores | 384GB RAM | 8 x NVIDIA T4 16 GB VRAM": 30000,
+                "Exceptional Power 4 | 48 Cores | 192GB RAM | 4 x NVIDIA A10 24 GB VRAM": 25000,
+                "Exceptional Power 5 | 96 Cores | 384GB RAM | 4 x NVIDIA A10 24 GB VRAM": 32000,
+                "Insanity | 192 Cores | 768GB RAM | 8 x NVIDIA A10 24 GB VRAM": 60000
+            };
+        
+            document.getElementById('spark_prostation').addEventListener('change', function () {
+                const selectedMachine = this.value;
+                const cost = machineCosts[selectedMachine];
+        
+                if (cost) {
+                    const costSlider = document.getElementById('on_prem_cost_per_dev');
+                    costSlider.value = cost;
+        
+                    const costDisplay = document.getElementById('on_prem_cost_per_dev_value');
+                    costDisplay.textContent = `$${cost}`;
+        
+                    calculateAndUpdate();
+                }
+            });
+        </script>
+        
+        <script>
+            const formatCurrency = (amount) => Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
+    
+            const calculateAndUpdate = () => {
+                const hoursPerDay = parseInt($('#hours_per_day').val());
+                const daysPerYear = parseInt($('#days_per_year').val());
+                const usageHours = hoursPerDay * daysPerYear;
+    
+                $('#usage_hours_per_year_value').text(usageHours);
+    
+                if (usageHours > 1000) {
+                    $('#discount-label-hours').text('[30% discount]');
+                } else {
+                    $('#discount-label-hours').text('');
+                }
+    
+                const formData = $('#calculator-form').serialize() + `&usage_hours_per_year=${usageHours}`;
+    
+                $.ajax({
+                    type: 'POST',
+                    url: '/calculate',
+                    data: formData,
+                    success: (response) => {
+                        $('#cloud_cost').text(formatCurrency(response.cloud_cost));
+                        $('#on_prem_cost').text(formatCurrency(response.on_prem_cost));
+                    }
+                });
+            };
+    
+            const updateSliderValue = (sliderId, displayId) => {
+                $(`#${sliderId}`).on('input', function () {
+                    const value = $(this).val();
+                    if (sliderId === 'on_prem_cost_per_dev' || sliderId === 'annual_maint_costs') {
+                        $(`#${displayId}`).text(`$${value}`);
+                    } else {
+                        $(`#${displayId}`).text(value);
+                    }
+                    calculateAndUpdate();
+                });
+            };
+    
+            $(document).ready(() => {
+                calculateAndUpdate();
+    
+                updateSliderValue('num_devs', 'num_devs_value');
+                updateSliderValue('on_prem_cost_per_dev', 'on_prem_cost_per_dev_value');
+                updateSliderValue('annual_maint_costs', 'annual_maint_costs_value');
+                updateSliderValue('hours_per_day', 'hours_per_day_value');
+                updateSliderValue('days_per_year', 'days_per_year_value');
+    
+                $('#os_type, #spark_prostation').on('change', calculateAndUpdate);
+            });
+        </script>
+    </body>
+    
+</html>
