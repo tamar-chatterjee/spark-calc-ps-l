@@ -179,52 +179,49 @@
 
     </style>
     <body>
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='spark-logo.png') }}" alt="Spark Cloud Studio Logo">
-        </div>
+    
     
         <h1>Spark ProStation vs On-Prem Workstation Cost Calculator</h1>
     
         <form id="calculator-form">
             <div class="form-group">
-                <label for="num_devs">Number of Users</label>
-                <span id="num_devs_value">30</span>
+                <label for="num_devs">Number of Users : <span id="num_devs_value">30</span></label>
+                <!--<span id="num_devs_value">30</span>-->
                 <input type="range" id="num_devs" name="num_devs" class="accented" min="1" max="100" value="30">
             </div>
     
             <div class="form-group">
-                <label for="on_prem_cost_per_dev">On-Prem Workstation Cost/user</label>
-                <span id="on_prem_cost_per_dev_value">$6500</span>
+                <label for="on_prem_cost_per_dev">On-Prem Workstation Cost/user : <span id="on_prem_cost_per_dev_value">$6500</span></label>
+                <!--<span id="on_prem_cost_per_dev_value">$6500</span>-->
                 <input type="range" id="on_prem_cost_per_dev" name="on_prem_cost_per_dev" class="accented" min="2000" max="75000" step="100" value="6500">
             </div>
     
           
             <div class="form-group">
-                <label for="annual_maint_costs">On-Prem Annual Infrastructure Costs/year</label>
-                <span id="annual_maint_costs_value">$7500</span>
+                <label for="annual_maint_costs">On-Prem Annual Infrastructure Costs/year : <span id="annual_maint_costs_value">$7500</span></label>
+                <!--<span id="annual_maint_costs_value">$7500</span>-->
                 <input type="range" id="annual_maint_costs" name="annual_maint_costs" class="accented" min="0" max="30000" step="100" value="7500">
             </div>
     
             
             <div class="nested-box">
                 <div class="form-group">
-                    <label for="hours_per_day">Work Hours/day</label>
-                    <span id="hours_per_day_value">8</span>
+                    <label for="hours_per_day">Work Hours/day : <span id="hours_per_day_value">8</span></label>
+                    <!--<span id="hours_per_day_value">8</span>-->
                     <input type="range" id="hours_per_day" name="hours_per_day" class="accented" min="1" max="16" value="8">
                 </div>
     
                 <div class="form-group">
-                    <label for="days_per_year">Work Days/year</label>
-                    <span id="days_per_year_value">260</span>
+                    <label for="days_per_year">Work Days/year : <span id="days_per_year_value">260</span></label>
+                    <!--<span id="days_per_year_value">260</span>-->
                     <input type="range" id="days_per_year" name="days_per_year" class="accented" min="1" max="365" value="260">
                 </div>
     
-                <div class="nested-box usage-hours-container">
-                    <label for="usage_hours_per_year">
-                        Usage Hours/year <span id="discount-label-hours" class="discount-label"></span>
-                    </label>
-                    <span id="usage_hours_per_year_value">2000</span>
-                </div>
+                <label for="usage_hours_per_year">
+                    Usage Hours/year <span id="discount-label-hours" class="discount-label"></span> : <span id="usage_hours_per_year_value">2000</span>
+                </label>
+                <!--<span id="usage_hours_per_year_value">2000</span>-->
+            
 
             </div>
     
@@ -256,7 +253,7 @@
        
 
         <div style="max-width: 630px; margin: 10px auto; font-size: 10px; color: #6a6a6a; text-align: left; line-height: 12px;">
-            <p>The cost estimates provided by this calculator are based on publicly available data and are intended for informational purposes only. Actual costs may vary depending on bespoke configurations and additional partnership discounts. Please contact us at <a href="mailto:ignite@sparkcloud.studio" style="color: #555; text-decoration: underline;">ignite@sparkcloud.studio</a> for pricing tailored to your specific needs. </p>
+            <p>The cost estimates provided by this calculator are based on publicly available data and are intended for informational purposes only. Actual costs may vary depending on bespoke configurations and additional partnership discounts. Please <a href="https://sparkcloud.studio/contact-us.html" target="_blank" style="color: #555; text-decoration: underline;">contact us</a> for pricing tailored to your specific needs. </p>
         </div>
         <script>
             const machineCosts = {
